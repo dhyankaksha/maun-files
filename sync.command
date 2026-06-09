@@ -16,37 +16,36 @@ for file in *.mp3; do
   fi
 
   filename="$file"
-  type="meditation"
-  cleanName="${file%.*}"
 
-  # Prefix matching
-  if [[ "$cleanName" =~ ^sleep ]]; then
-    type="sleep"
-    cleanName=$(echo "$cleanName" | sed -E 's/^sleep[_-\s]*//I')
-  elif [[ "$cleanName" =~ ^chime ]]; then
-    type="chime"
-    cleanName=$(echo "$cleanName" | sed -E 's/^chime[_-\s]*//I')
-  elif [[ "$cleanName" =~ ^(meditation|meditaion|meditatio) ]]; then
-    type="meditation"
-    cleanName=$(echo "$cleanName" | sed -E 's/^(meditation|meditaion|meditatio)[_-\s]*//I')
-  fi
+  # Use Python for cross-platform robust regex parsing and formatting
+  python_result=$(python3 -c '
+import sys, re, urllib.parse
+filename = sys.argv[1]
+base = filename.rsplit(".", 1)[0]
+type_val = "meditation"
+clean_name = base
 
-  # Formatting Name
-  cleanName=$(echo "$cleanName" | sed -E 's/[_- ]+/ /g' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-  
-  # Title Case conversion
-  cleanName=$(echo "$cleanName" | awk '{for(i=1;i<=NF;i++){$i=toupper(substr($i,1,1))tolower(substr($i,2))}}1')
+if re.match(r"^sleep", base, re.IGNORECASE):
+    type_val = "sleep"
+    clean_name = re.sub(r"^sleep[-_ ]*", "", base, flags=re.IGNORECASE)
+elif re.match(r"^chime", base, re.IGNORECASE):
+    type_val = "chime"
+    clean_name = re.sub(r"^chime[-_ ]*", "", base, flags=re.IGNORECASE)
+elif re.match(r"^(meditation|meditaion|meditatio)", base, re.IGNORECASE):
+    type_val = "meditation"
+    clean_name = re.sub(r"^(meditation|meditaion|meditatio)[-_ ]*", "", base, flags=re.IGNORECASE)
 
-  if [ -z "$cleanName" ]; then
-    cleanName="${file%.*}"
-  fi
+clean_name = re.sub(r"[-_ ]+", " ", clean_name).strip()
+clean_name = " ".join([w.capitalize() for w in clean_name.split()])
 
-  # URL encoding filename
-  encodedFilename=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1]))" "$filename" 2>/dev/null)
-  if [ -z "$encodedFilename" ]; then
-    encodedFilename=$(echo -n "$filename" | curl -s -o /dev/null -w %{url_effective} --get --data-urlencode @- "" | cut -c 3-)
-  fi
+if not clean_name:
+    clean_name = base
 
+encoded = urllib.parse.quote(filename)
+print(f"{clean_name}|{type_val}|{encoded}")
+' "$filename")
+
+  IFS='|' read -r cleanName type encodedFilename <<< "$python_result"
   url="https://raw.githubusercontent.com/dhyankaksha/maun-files/main/$encodedFilename"
 
   if [ "$first" = true ]; then
