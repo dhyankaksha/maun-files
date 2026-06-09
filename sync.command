@@ -76,15 +76,16 @@ git add .
 
 # Check if there are changes
 status=$(git status --porcelain)
-if [ -z "$status" ]; then
-  echo "No changes to sync."
-else
+if [ -n "$status" ]; then
   timestamp=$(date +"%Y-%m-%d %H:%M:%S")
   echo "Committing: Sync audio files $timestamp"
   git commit -m "Sync audio files $timestamp"
-  echo "Pushing changes to GitHub..."
-  git push origin main
+else
+  echo "No new local changes to commit, checking for pending uploads..."
 fi
+
+echo "Pushing changes to GitHub..."
+git push origin main
 
 echo ""
 echo "Press Enter to close this window..."
