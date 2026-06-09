@@ -32,7 +32,7 @@ for file in *.mp3; do
   fi
 
   # Formatting Name
-  cleanName=$(echo "$cleanName" | sed -E 's/[_-\s]+/ /g' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+  cleanName=$(echo "$cleanName" | sed -E 's/[_- ]+/ /g' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
   
   # Title Case conversion
   cleanName=$(echo "$cleanName" | awk '{for(i=1;i<=NF;i++){$i=toupper(substr($i,1,1))tolower(substr($i,2))}}1')

@@ -1,72 +1,72 @@
 [
   {
-    "name": "Bell 01",
+    "name": "Chime Bell 01",
     "url": "https://raw.githubusercontent.com/dhyankaksha/maun-files/main/Chime%20Bell%2001.mp3",
     "type": "chime",
     "file": "Chime Bell 01.mp3"
   }
 ,
   {
-    "name": "Bell 02",
+    "name": "Chime Bell 02",
     "url": "https://raw.githubusercontent.com/dhyankaksha/maun-files/main/Chime%20Bell%2002.mp3",
     "type": "chime",
     "file": "Chime Bell 02.mp3"
   }
 ,
   {
-    "name": "Maun Meditation Mu Ic 01",
-    "url": "https://raw.githubusercontent.com/dhyankaksha/maun-files/main/meditation%20Maun%20Meditation%20Music%2001.mp3",
-    "type": "meditation",
-    "file": "meditation Maun Meditation Music 01.mp3"
-  }
-,
-  {
-    "name": "Maun Meditation Mu Ic 02",
+    "name": "Meditation Maun Meditation Music 02",
     "url": "https://raw.githubusercontent.com/dhyankaksha/maun-files/main/Meditation%20Maun%20Meditation%20Music%2002.mp3",
     "type": "meditation",
     "file": "Meditation Maun Meditation Music 02.mp3"
   }
 ,
   {
-    "name": "Maun Meditation Mu Ic 03",
+    "name": "Meditation Maun Meditation Music 03",
     "url": "https://raw.githubusercontent.com/dhyankaksha/maun-files/main/Meditation%20Maun%20Meditation%20Music%2003.mp3",
     "type": "meditation",
     "file": "Meditation Maun Meditation Music 03.mp3"
   }
 ,
   {
-    "name": "Maun Meditation Mu Ic 04",
+    "name": "Meditation Maun Meditation Music 04",
     "url": "https://raw.githubusercontent.com/dhyankaksha/maun-files/main/Meditation%20Maun%20Meditation%20Music%2004.mp3",
     "type": "meditation",
     "file": "Meditation Maun Meditation Music 04.mp3"
   }
 ,
   {
-    "name": "Bird And Water Tream Deep Sleep -maun",
+    "name": "Sleep Birds and water stream Deep Sleep -Maun",
     "url": "https://raw.githubusercontent.com/dhyankaksha/maun-files/main/Sleep%20Birds%20and%20water%20stream%20Deep%20Sleep%20-Maun.mp3",
     "type": "sleep",
     "file": "Sleep Birds and water stream Deep Sleep -Maun.mp3"
   }
 ,
   {
-    "name": "Railfall Ound - Deep Sleep-maun",
+    "name": "Sleep Railfall sound - Deep Sleep-Maun",
     "url": "https://raw.githubusercontent.com/dhyankaksha/maun-files/main/Sleep%20Railfall%20sound%20-%20Deep%20Sleep-Maun.mp3",
     "type": "sleep",
     "file": "Sleep Railfall sound - Deep Sleep-Maun.mp3"
   }
 ,
   {
-    "name": "Rainfall With Thunder And Frog Ound Deep Leep",
+    "name": "Sleep Rainfall with thunder and frog sound Deep sleep",
     "url": "https://raw.githubusercontent.com/dhyankaksha/maun-files/main/Sleep%20Rainfall%20with%20thunder%20and%20frog%20sound%20Deep%20sleep.mp3",
     "type": "sleep",
     "file": "Sleep Rainfall with thunder and frog sound Deep sleep.mp3"
   }
 ,
   {
-    "name": "Silent Night Deep Leep-maun",
+    "name": "Sleep Silent Night Deep sleep-Maun",
     "url": "https://raw.githubusercontent.com/dhyankaksha/maun-files/main/Sleep%20Silent%20Night%20Deep%20sleep-Maun.mp3",
     "type": "sleep",
     "file": "Sleep Silent Night Deep sleep-Maun.mp3"
+  }
+,
+  {
+    "name": "meditation Maun Meditation Music 01",
+    "url": "https://raw.githubusercontent.com/dhyankaksha/maun-files/main/meditation%20Maun%20Meditation%20Music%2001.mp3",
+    "type": "meditation",
+    "file": "meditation Maun Meditation Music 01.mp3"
   }
 
 ]
