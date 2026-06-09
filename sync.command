@@ -1,21 +1,89 @@
 #!/bin/bash
 cd "$(dirname "$0")"
 
-# Load common shell configuration files to populate PATH (NVM, Homebrew, etc.)
-[ -f ~/.zshrc ] && source ~/.zshrc
-[ -f ~/.bash_profile ] && source ~/.bash_profile
-[ -f ~/.profile ] && source ~/.profile
+echo "=== Maun Audio Sync (Bash) ==="
 
-# Add common Node paths (Homebrew)
-export PATH="/usr/local/bin:/opt/homebrew/bin:$PATH"
+REGISTRY="songs.json"
+echo "[" > "$REGISTRY"
 
-echo "=== Maun Audio Sync ==="
+first=true
+shopt -s nullglob
+shopt -s nocaseglob
 
-if ! command -v node &> /dev/null; then
-  echo "Error: Node.js is not installed or not in PATH."
-  echo "Please install Node.js from https://nodejs.org"
+for file in *.mp3; do
+  if [ ! -f "$file" ]; then
+    continue
+  fi
+
+  filename="$file"
+  type="meditation"
+  cleanName="${file%.*}"
+
+  # Prefix matching
+  if [[ "$cleanName" =~ ^sleep ]]; then
+    type="sleep"
+    cleanName=$(echo "$cleanName" | sed -E 's/^sleep[_-\s]*//I')
+  elif [[ "$cleanName" =~ ^chime ]]; then
+    type="chime"
+    cleanName=$(echo "$cleanName" | sed -E 's/^chime[_-\s]*//I')
+  elif [[ "$cleanName" =~ ^(meditation|meditaion|meditatio) ]]; then
+    type="meditation"
+    cleanName=$(echo "$cleanName" | sed -E 's/^(meditation|meditaion|meditatio)[_-\s]*//I')
+  fi
+
+  # Formatting Name
+  cleanName=$(echo "$cleanName" | sed -E 's/[_-\s]+/ /g' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+  
+  # Title Case conversion
+  cleanName=$(echo "$cleanName" | awk '{for(i=1;i<=NF;i++){$i=toupper(substr($i,1,1))tolower(substr($i,2))}}1')
+
+  if [ -z "$cleanName" ]; then
+    cleanName="${file%.*}"
+  fi
+
+  # URL encoding filename
+  encodedFilename=$(python3 -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1]))" "$filename" 2>/dev/null)
+  if [ -z "$encodedFilename" ]; then
+    encodedFilename=$(echo -n "$filename" | curl -s -o /dev/null -w %{url_effective} --get --data-urlencode @- "" | cut -c 3-)
+  fi
+
+  url="https://raw.githubusercontent.com/dhyankaksha/maun-files/main/$encodedFilename"
+
+  if [ "$first" = true ]; then
+    first=false
+  else
+    echo "," >> "$REGISTRY"
+  fi
+
+  cat <<EOF >> "$REGISTRY"
+  {
+    "name": "$cleanName",
+    "url": "$url",
+    "type": "$type",
+    "file": "$filename"
+  }
+EOF
+done
+
+echo "" >> "$REGISTRY"
+echo "]" >> "$REGISTRY"
+
+echo "Successfully generated songs.json."
+
+# Git Operations
+echo "Staging changes for Git..."
+git add .
+
+# Check if there are changes
+status=$(git status --porcelain)
+if [ -z "$status" ]; then
+  echo "No changes to sync."
 else
-  node sync_songs.js
+  timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+  echo "Committing: Sync audio files $timestamp"
+  git commit -m "Sync audio files $timestamp"
+  echo "Pushing changes to GitHub..."
+  git push origin main
 fi
 
 echo ""
